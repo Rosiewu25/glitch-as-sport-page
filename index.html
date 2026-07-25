@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Does a Bug Become a Sport?</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f3f5f7;
+    color:#222;
+}
+
+header{
+    background:#1f2937;
+    color:white;
+    padding:50px 20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    font-size:2.8rem;
+}
+
+header p{
+    max-width:700px;
+    margin:20px auto 0;
+    line-height:1.6;
+}
+
+main{
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+section{
+    margin-bottom:60px;
+}
+
+h2{
+    color:#1f2937;
+}
+
+.example{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.flow{
+    margin-top:10px;
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.game{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    font-size:1rem;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+button{
+    cursor:pointer;
+}
+
+#startBtn,
+#restartBtn{
+    padding:12px 22px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:8px;
+    font-size:1rem;
+}
+
+#restartBtn{
+    display:none;
+}
+
+#story{
+    margin-top:30px;
+    display:none;
+}
+
+#eventText{
+    font-size:1.2rem;
+    margin-bottom:20px;
+    line-height:1.6;
+}
+
+.answers{
+    display:grid;
+    gap:12px;
+}
+
+.answerBtn{
+    border:none;
+    background:#eef2ff;
+    padding:15px;
+    border-radius:10px;
+    font-size:1rem;
+    transition:.2s;
+}
+
+.answerBtn:hover{
+    background:#dbeafe;
+}
+
+#feedback{
+    margin-top:25px;
+    font-weight:bold;
+    color:#1d4ed8;
+}
+
+.notice{
+    margin-top:25px;
+    background:#fff8dc;
+    padding:15px;
+    border-left:5px solid gold;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#666;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+
+<h1>When Does a Bug Become a Sport?</h1>
+
+<p>
+A mistake happens. Someone notices it. Someone learns to repeat it.
+Eventually people practice it, compete with it, and build communities around it.
+But at what point does a bug stop being just a mistake and become a sport?
+</p>
+
+</header>
+
+<main>
+
+<section>
+
+<h2>Real Examples</h2>
+
+<div class="example">
+<h3>Wave-dashing</h3>
+
+<p>
+An unintended movement technique in Super Smash Bros. Melee became one of the
+most recognizable competitive skills in the game.
+</p>
+
+<div class="flow">
+Accident → Discovery → Practice → Competition
+</div>
+
+</div>
+
+<div class="example">
+<h3>Backwards Long Jump</h3>
+
+<p>
+A programming bug in Super Mario 64 eventually became one of the most famous
+speedrunning techniques.
+</p>
+
+<div class="flow">
+Bug → Technique → Strategy → Speedrun
+</div>
+
+</div>
+
+<div class="example">
+<h3>Bunny Hopping</h3>
+
+<p>
+An unexpected movement mechanic evolved into a skill that players spent years
+learning and mastering.
+</p>
+
+<div class="flow">
+Movement → Skill → Community → Competition
+</div>
+
+</div>
+
+<div class="notice">
+
+<strong>What to notice</strong>
+
+<p>
+None of these started as sports.
+People discovered them, practiced them, and eventually built communities around them.
+</p>
+
+</div>
+
+</section>
+
+<section class="game">
+
+<h2>Can You Decide When It Becomes a Sport?</h2>
+
+<p>
+
+Enter any object or idea below.
+
+The story will slowly evolve.
+
+At every step, decide whether it's still just a bug, too early to tell,
+becoming a sport, or already a sport.
+
+</p>
+
+<input
+id="objectInput"
+placeholder="Example: Banana, Spoon, Pillow..."
+>
+
+<button id="startBtn">Start Story</button>
+
+<div id="story">
+
+<h3 id="storyTitle"></h3>
+
+<p id="eventText"></p>
+
+<div class="answers">
+
+<button class="answerBtn">Just a bug</button>
+
+<button class="answerBtn">Too early to tell</button>
+
+<button class="answerBtn">Becoming a sport</button>
+
+<button class="answerBtn">It is a sport</button>
+
+</div>
+
+<p id="feedback"></p>
+
+<button id="restartBtn">Play Again</button>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+Paper App Prototype • Step 1
+
+</footer>
+
+<script>
+
+const events = [
+
+"Someone accidentally discovers a strange way to use the OBJECT.",
+
+"A few friends learn how to repeat it consistently.",
+
+"People begin practicing different techniques.",
+
+"A small community creates rules and names for strategies.",
+
+"Competitions begin attracting skilled players.",
+
+"Large tournaments are held with spectators."
+
+];
+
+let current = 0;
+
+let objectName = "";
+
+const story=document.getElementById("story");
+const title=document.getElementById("storyTitle");
+const eventText=document.getElementById("eventText");
+const feedback=document.getElementById("feedback");
+const restart=document.getElementById("restartBtn");
+
+document.getElementById("startBtn").onclick=function(){
+
+objectName=document.getElementById("objectInput").value.trim();
+
+if(objectName===""){
+alert("Enter something first!");
+return;
+}
+
+current=0;
+
+story.style.display="block";
+
+restart.style.display="none";
+
+feedback.textContent="";
+
+title.textContent="Your object: "+objectName;
+
+showEvent();
+
+}
+
+function showEvent(){
+
+eventText.textContent=
+events[current].replace("OBJECT",objectName);
+
+}
+
+document.querySelectorAll(".answerBtn").forEach(button=>{
+
+button.onclick=function(){
+
+const choice=this.textContent;
+
+if(choice==="It is a sport"){
+
+feedback.innerHTML=
+"<br><strong>You decided it became a sport here.</strong><br><br>Different people may choose a different moment.<br><br>This mirrors how some glitches eventually become accepted competitive techniques.";
+
+restart.style.display="inline-block";
+
+return;
+
+}
+
+current++;
+
+if(current>=events.length){
+
+feedback.innerHTML=
+"<br>You reached the end of the story without declaring it a sport.<br><br>Would more time or a larger community change your mind?";
+
+restart.style.display="inline-block";
+
+return;
+
+}
+
+showEvent();
+
+}
+
+});
+
+restart.onclick=function(){
+
+story.style.display="none";
+
+document.getElementById("objectInput").value="";
+
+feedback.textContent="";
+
+}
+
+</script>
+
+</body>
+</html>
